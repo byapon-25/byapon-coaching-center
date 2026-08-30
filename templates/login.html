@@ -1,1 +1,283 @@
-<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Login</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><style>body{background:#111827}.box{max-width:420px;margin:12vh auto}</style></head><body><div class="box card p-4"><h2>📚 Coaching CMS</h2><p class="text-muted">Admin Login</p>{% with messages=get_flashed_messages(with_categories=true) %}{% for c,m in messages %}<div class="alert alert-{{c}}">{{m}}</div>{% endfor %}{% endwith %}<form method="post"><input class="form-control mb-3" name="username" placeholder="Username" required><input class="form-control mb-3" name="password" type="password" placeholder="Password" required><button class="btn btn-dark w-100">Login</button></form><small class="text-muted d-block mt-3">Default: admin / admin123</small></div></body></html>
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BYAPON | Admin Login</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+min-height:100vh;
+overflow:hidden;
+font-family:Arial,sans-serif;
+background:#05070d;
+color:#fff;
+transition:.8s;
+}
+
+body.light{
+background:radial-gradient(circle at center,#fff9dc,#f1f3f7 45%,#d9dee8);
+color:#111;
+}
+
+.room{
+position:relative;
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.light{
+position:absolute;
+top:0;
+left:50%;
+transform:translateX(-50%);
+width:170px;
+height:170px;
+border-radius:50%;
+background:transparent;
+box-shadow:none;
+transition:1s;
+pointer-events:none;
+}
+
+body.light .light{
+background:rgba(255,235,150,.35);
+box-shadow:
+0 0 70px 35px rgba(255,235,150,.25),
+0 0 180px 90px rgba(255,235,150,.13);
+}
+
+.lamp{
+position:absolute;
+top:0;
+left:50%;
+width:3px;
+height:130px;
+background:#777;
+transform:translateX(-50%);
+}
+
+.bulb{
+position:absolute;
+top:118px;
+left:50%;
+width:28px;
+height:28px;
+border-radius:50%;
+background:#222;
+transform:translateX(-50%);
+transition:.5s;
+}
+
+body.light .bulb{
+background:#fff3a3;
+box-shadow:0 0 25px 12px #ffe98a;
+}
+
+.pull{
+position:absolute;
+top:120px;
+right:24%;
+width:45px;
+height:180px;
+cursor:grab;
+z-index:20;
+touch-action:none;
+}
+
+.rope{
+width:3px;
+height:145px;
+background:#aaa;
+margin:auto;
+}
+
+.handle{
+width:18px;
+height:38px;
+border-radius:10px;
+background:linear-gradient(#ddd,#777);
+margin:-2px auto 0;
+box-shadow:0 4px 8px #0008;
+}
+
+.pull-text{
+position:absolute;
+top:185px;
+left:50%;
+transform:translateX(-50%);
+white-space:nowrap;
+font-size:11px;
+letter-spacing:2px;
+color:#aaa;
+}
+
+.login{
+width:min(420px,90%);
+padding:34px;
+border-radius:24px;
+background:rgba(15,23,42,.82);
+border:1px solid rgba(255,255,255,.12);
+box-shadow:0 25px 80px #0009;
+backdrop-filter:blur(18px);
+opacity:0;
+transform:translateY(30px) scale(.95);
+pointer-events:none;
+transition:1s;
+z-index:5;
+}
+
+body.light .login{
+opacity:1;
+transform:translateY(0) scale(1);
+pointer-events:auto;
+}
+
+.logo{
+font-size:30px;
+font-weight:800;
+letter-spacing:2px;
+}
+
+.subtitle{
+color:#9ca3af;
+margin-bottom:28px;
+}
+
+.form-control{
+height:52px;
+border-radius:12px;
+background:#111827;
+border:1px solid #374151;
+color:#fff;
+}
+
+.form-control:focus{
+background:#111827;
+color:#fff;
+border-color:#f5d76e;
+box-shadow:0 0 0 3px rgba(245,215,110,.12);
+}
+
+.login-btn{
+height:52px;
+border:0;
+border-radius:12px;
+font-weight:700;
+background:linear-gradient(135deg,#f5d76e,#fff1a8);
+color:#111827;
+}
+
+.hint{
+font-size:11px;
+color:#6b7280;
+margin-top:18px;
+text-align:center;
+}
+
+@media(max-width:600px){
+.pull{
+right:10%;
+}
+.login{
+padding:26px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="room">
+
+<div class="lamp"></div>
+<div class="bulb"></div>
+<div class="light"></div>
+
+<div class="pull" id="pull">
+<div class="rope"></div>
+<div class="handle"></div>
+<div class="pull-text">PULL</div>
+</div>
+
+<div class="login">
+
+<div class="logo">📚 BYAPON</div>
+<div class="subtitle">Coaching Management System</div>
+
+{% with messages=get_flashed_messages(with_categories=true) %}
+{% for c,m in messages %}
+<div class="alert alert-{{c}}">{{m}}</div>
+{% endfor %}
+{% endwith %}
+
+<form method="post">
+
+<input
+class="form-control mb-3"
+name="username"
+placeholder="Username"
+required
+>
+
+<input
+class="form-control mb-3"
+name="password"
+type="password"
+placeholder="Password"
+required
+>
+
+<button class="login-btn w-100">
+Login to Dashboard
+</button>
+
+</form>
+
+<div class="hint">
+Admin access • BYAPON Coaching
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const pull=document.getElementById("pull");
+
+let startY=0;
+let dragging=false;
+
+pull.addEventListener("pointerdown",e=>{
+dragging=true;
+startY=e.clientY;
+pull.setPointerCapture(e.pointerId);
+});
+
+pull.addEventListener("pointermove",e=>{
+if(!dragging)return;
+
+let distance=e.clientY-startY;
+
+if(distance>45){
+document.body.classList.add("light");
+dragging=false;
+}
+});
+
+pull.addEventListener("pointerup",()=>{
+dragging=false;
+});
+
+</script>
+
+</body>
+</html>
